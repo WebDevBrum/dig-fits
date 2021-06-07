@@ -25,12 +25,14 @@ function MyApp({ Component, pageProps, apollo }) {
   );
 }
 
+// this a next.js method along with next.js ctx - sd
 MyApp.getInitialProps = async function ({ Component, ctx }) {
   let pageProps = {};
   if (Component.getInitialProps) {
     pageProps = await Component.getInitialProps(ctx);
   }
   pageProps.query = ctx.query;
+  console.log(pageProps);
   return { pageProps };
 };
 
