@@ -30,8 +30,17 @@ export default function paginationField() {
       // First is ask the read function for those items
     },
     merge(existing, incoming, { args }) {
+      const { skip, first } = args;
       // This runs when the apollo client comes back from the network with our product
       console.log(`Merging items from the network ${incoming.length}`);
+      const merged = existing ? existing.slice(0) : [];
+
+      for (let i = skip; i < skip + incoming.length; i++) {
+        merged[i] = incoming[i - skip];
+      }
+      console.log(merged);
+      // Finally return the merged items from the cache
+      return merged;
     },
   };
 }
