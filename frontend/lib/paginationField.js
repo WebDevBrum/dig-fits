@@ -13,6 +13,16 @@ export default function paginationField() {
 
       // check if we have existing items
       const items = existing.slice(skip, skip + first).filter((x) => x);
+      // If
+      // There are items
+      // AND there arent enough items to satisfy how many were requested
+      // AND we are on the last page
+      // THEN JUST SEND IT
+
+      if (items.length && items.length !== first && page === pages) {
+        return items;
+      }
+
       if (items.length !== first) {
         // we dont have any items, we must go to the network to fetch them
         return false;
@@ -28,6 +38,9 @@ export default function paginationField() {
 
       return false; // fallback to network
       // First is ask the read function for those items
+      // We can do either one of two things
+      // First thing we can do is return the items because they are already in the cache
+      // The other thing we can do is return false from here, (network request)
     },
     merge(existing, incoming, { args }) {
       const { skip, first } = args;
